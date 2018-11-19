@@ -57,7 +57,7 @@ class taxiDataset(Dataset):
     def _parsetime(self, data_frame, desired_labels, dt_label, split):
         data_frame[dt_label] = pd.to_datetime(data_frame[dt_label])
         data_frame[dt_label] = data_frame[dt_label].dt.round('30min')
-        data_frame[desired_labels[1]] = (data_frame[dt_label].dt.dayofweek)#.apply(lambda x: self.dayDict[x])
+        data_frame[desired_labels[1]] = data_frame[dt_label].dt.dayofweek
         data_frame[desired_labels[2]] = data_frame[dt_label].dt.time.apply(lambda x: self.timeBuckets[str(x)])
         
         return data_frame.groupby(desired_labels).size().reset_index()
