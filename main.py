@@ -16,7 +16,7 @@ def main():
     parser = argparse.ArgumentParser(description="Main file for taxi prediction")
     
     # ========================= Model Configs ========================== 
-    parser.add_argument('--dropout', type=float, default=0.5)
+    parser.add_argument('--dropout', type=float, default=0.8)
     parser.add_argument('--loss', type=str, default='mae', choices=['mse', 'mae'])
 
     # ========================= Learning Configs ==========================
@@ -40,9 +40,9 @@ def main():
     args = parser.parse_args()
 
     # Model architecture params
-    feature_num = 3
-    H1 = 4 
-    H2 = 6 
+    feature_num = 4 
+    H1 = 3 
+    H2 = 3 
     H3 = 5
     output_dim = 1
 
@@ -62,8 +62,8 @@ def main():
     model.apply(init_weights)
 
     # Load data
-    dl = ['PULocationID','day_of_week','t_bucket']
-    taxi_dataset = taxiDataset(csv_file='yellow_tripdata_2016-12.csv', desired_labels=dl)#, length=4000)
+    dl = ['PULocationID','day_of_week','t_bucket', 'month_of_year']
+    taxi_dataset = taxiDataset(desired_labels=dl, time_range='year', pcs_per_month=4000, df_file='year_df.csv')#, length=4000)
     train_loader = torch.utils.data.DataLoader(taxi_dataset.train, batch_size=args.batch_size, shuffle=True, pin_memory=True)
     print(len(taxi_dataset))
     val_loader = torch.utils.data.DataLoader(taxi_dataset.val, batch_size=1, shuffle=True, pin_memory=True)
@@ -153,7 +153,7 @@ def validate(val_loader, model):
             all_output.append(output.item())
             all_label.append(label.item())
 
-        loss = mse_loss(all_output, all_label)
+        loss = mse_loss(all_output, all_label) if args.loss == 'mse' else mae_loss(all_output, all_label)
 
     print('Loss: {:.3f}'.format(loss))
     
