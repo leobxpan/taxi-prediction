@@ -4,8 +4,9 @@ import pdb
 import time
 import torch
 import shutil
-
+from irisDataset import *
 from taxiDataset import *
+import pandas as pd
 
 best_loss = np.Inf
 
@@ -61,13 +62,18 @@ def main():
     # Parameter Initialization
     model.apply(init_weights)
 
+    trainset = irisTrainSet()
+    testset = irisTestSet()
+    
+    train_loader = torch.utils.data.DataLoader(trainset, batch_size=args.batch_size, shuffle=True, pin_memory=True)
+    test_loader = torch.utils.data.DataLoader(testset, batch_size=args.batch_size, shuffle=True, pin_memory=True)
     # Load data
     dl = ['PULocationID','day_of_week','t_bucket', 'month_of_year']
-    taxi_dataset = taxiDataset(desired_labels=dl, time_range='year', pcs_per_month=4000, df_file='year_df.csv')#, length=4000)
-    train_loader = torch.utils.data.DataLoader(taxi_dataset.train, batch_size=args.batch_size, shuffle=True, pin_memory=True)
-    print(len(taxi_dataset))
-    val_loader = torch.utils.data.DataLoader(taxi_dataset.val, batch_size=1, shuffle=True, pin_memory=True)
-    test_loader = torch.utils.data.DataLoader(taxi_dataset.test, batch_size=1, shuffle=True, pin_memory=True)
+    #taxi_dataset = taxiDataset(desired_labels=dl, time_range='year', pcs_per_month=4000, df_file='year_df.csv')#, length=4000)
+    #train_loader = torch.utils.data.DataLoader(taxi_dataset.train, batch_size=args.batch_size, shuffle=True, pin_memory=True)
+    #print(len(taxi_dataset))
+    #val_loader = torch.utils.data.DataLoader(taxi_dataset.val, batch_size=1, shuffle=True, pin_memory=True)
+    #test_loader = torch.utils.data.DataLoader(taxi_dataset.test, batch_size=1, shuffle=True, pin_memory=True)
 
     if args.val:
         if args.resume:
@@ -133,6 +139,9 @@ def main():
 
                 #adjust_learning_rate(optimizer, epoch, args.lr_steps)
 
+    
+            X = Variable(torch.Tensor(xtrain).float())
+            Y = Variable(torch.Tensor(ytrain).long())
             train(train_loader, model, loss, optimizer, epoch, args.iter_p_epoch)
 
 def init_weights(m):
