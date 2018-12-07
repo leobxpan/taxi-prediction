@@ -16,7 +16,7 @@ import matplotlib.pyplot as plt
 class irisTrainSet(Dataset):
     def __init__(self):
         #load
-        datatrain = pd.read_csv('../Datasets/iris/iris_train.csv')
+        datatrain = pd.read_csv('./Datasets/iris/iris_train.csv')
         
         #change string value to numeric
         datatrain.loc[datatrain['species']=='Iris-setosa', 'species']=0
@@ -38,7 +38,7 @@ class irisTrainSet(Dataset):
 class irisTestSet(Dataset):
     def __init__(self):
         #load
-        datatrain = pd.read_csv('../Datasets/iris/iris_test.csv')
+        datatrain = pd.read_csv('./Datasets/iris/iris_test.csv')
         
         #change string value to numeric
         datatrain.loc[datatrain['species']=='Iris-setosa', 'species']=0

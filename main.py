@@ -23,7 +23,7 @@ def main():
     # ========================= Learning Configs ==========================
     parser.add_argument('--epochs', type=int, default=50)
     parser.add_argument('-b', '--batch-size', type=int, default=128)
-    parser.add_argument('--lr', type=float, default=0.001)
+    parser.add_argument('--lr', type=float, default=0.0001)
     parser.add_argument('--lr_steps', type=int, default=[20, 40], help='epochs to decay learning rate by 10')
     parser.add_argument('--momentum', type=float, default=0.9)
     parser.add_argument('--weight-decay', type=float, default=5e-4) 
@@ -42,31 +42,31 @@ def main():
 
     # Model architecture params
     feature_num = 4 
-    H1 = 3 
+    H1 = 10 
     H2 = 3 
     H3 = 5
-    output_dim = 1
+    output_dim = 3      # To be changed to 1 
 
     # Model configuration
     model = torch.nn.Sequential(
         torch.nn.Linear(feature_num, H1),
         torch.nn.ReLU(),
-        torch.nn.Linear(H1, H2),
-        torch.nn.ReLU(),
+        #torch.nn.Linear(H1, H2),
+        #torch.nn.ReLU(),
         #torch.nn.Linear(H2, H3),
         #torch.nn.ReLU(),
-        torch.nn.Linear(H2, output_dim),
-        torch.nn.ReLU(),
+        torch.nn.Linear(H1, output_dim),
+        #torch.nn.ReLU(),
     ).cuda()
    
     # Parameter Initialization
-    model.apply(init_weights)
+    #model.apply(init_weights)
 
     trainset = irisTrainSet()
     testset = irisTestSet()
     
     train_loader = torch.utils.data.DataLoader(trainset, batch_size=args.batch_size, shuffle=True, pin_memory=True)
-    test_loader = torch.utils.data.DataLoader(testset, batch_size=args.batch_size, shuffle=True, pin_memory=True)
+    val_loader = torch.utils.data.DataLoader(testset, batch_size=args.batch_size, shuffle=True, pin_memory=True)
     # Load data
     dl = ['PULocationID','day_of_week','t_bucket', 'month_of_year']
     #taxi_dataset = taxiDataset(desired_labels=dl, time_range='year', pcs_per_month=4000, df_file='year_df.csv')#, length=4000)
@@ -113,9 +113,10 @@ def main():
             loss = torch.nn.L1Loss(size_average=True)
         else:
             raise ValueError("Only MSE and MAE are supported while we got {}".format(args.loss))
-
+        loss = torch.nn.CrossEntropyLoss() # To be deleted
         #optimizer = torch.optim.SGD(model.parameters(), args.lr, momentum=args.momentum, weight_decay=args.weight_decay)
-        optimizer = torch.optim.Adam(model.parameters())
+        optimizer = torch.optim.SGD(model.parameters(), lr=args.lr)
+        #optimizer = torch.optim.Adam(model.parameters())
 
         # Print the mean of ground truth labels for comparison
         print("The mean of ground truth labels is {}".format(loader_mean(val_loader)))
@@ -127,7 +128,7 @@ def main():
                 loss_val = validate(val_loader, model)
 
                 is_best = loss_val > best_loss
-                best_loss = min(loss_val, best_loss)
+                best_loss = max(loss_val, best_loss) # To be changed to min`
 
                 print("Loss on validation set for epoch {} is {}. Current minimum is {}".format(epoch, loss_val, best_loss))
 
@@ -139,9 +140,6 @@ def main():
 
                 #adjust_learning_rate(optimizer, epoch, args.lr_steps)
 
-    
-            X = Variable(torch.Tensor(xtrain).float())
-            Y = Variable(torch.Tensor(ytrain).long())
             train(train_loader, model, loss, optimizer, epoch, args.iter_p_epoch)
 
 def init_weights(m):
@@ -159,10 +157,12 @@ def validate(val_loader, model):
         for i, (input_val, label) in enumerate(val_loader):
             input_val = input_val.to(torch.float32).cuda()
             output = model(input_val)
+            _, output = torch.max(output.data, 1)      # To be deleted 
             all_output.append(output.item())
             all_label.append(label.item())
 
-        loss = mse_loss(all_output, all_label) if args.loss == 'mse' else mae_loss(all_output, all_label)
+        loss = crossentropy_loss(all_output, all_label) # To be deleted
+        #loss = mse_loss(all_output, all_label) if args.loss == 'mse' else mae_loss(all_output, all_label)
 
     print('Loss: {:.3f}'.format(loss))
     
@@ -171,7 +171,7 @@ def validate(val_loader, model):
 def train(train_loader, model, loss, optimizer, epoch, iter_p_epoch):
     model.train()
 
-    train_len = len(train_loader) - 1
+    train_len = len(train_loader)
 
     for i in range(iter_p_epoch):
         if i % train_len == 0:
@@ -179,15 +179,16 @@ def train(train_loader, model, loss, optimizer, epoch, iter_p_epoch):
                 train_iter.next()
             train_iter = iter(train_loader)
 
+        optimizer.zero_grad()
+        
         input_val, label = train_iter.next()
         input_val = input_val.to(torch.float32).cuda()
         label = label.to(torch.float32).cuda()
 
-        output = model(input_val).view(-1)
-
+        label = label.to(torch.long).cuda()         # To be deleted
+        output = model(input_val)#.view(-1)
         backable_loss = loss(output, label)
 
-        optimizer.zero_grad()
         backable_loss.backward()
 
         optimizer.step()
@@ -200,12 +201,17 @@ def train(train_loader, model, loss, optimizer, epoch, iter_p_epoch):
         #        .format(
         #        epoch, i, len(source_loader), batch_time=batch_time,
         #        data_time=data_time, c_loss=c_losses, ad_loss=ad_losses, lr=optimizer.param_groups[-1]['lr'])))
+    if epoch % args.eval_freq == 0 or epoch == args.epochs - 1:
+        print("Training loss is: {} for epoch {}".format(backable_loss.data[0], epoch))
 
 def mse_loss(output, label):
     return np.sum((np.asarray(output) - np.asarray(label)) ** 2) / len(output) 
 
 def mae_loss(output, label):
     return np.sum(np.abs(np.asarray(output) - np.asarray(label))) / len(output)
+
+def crossentropy_loss(output, label):
+    return (100 * np.sum(output==label) / len(output))
 
 def save_checkpoint(state, is_best, file_name='checkpoint.pth.tar'):
     torch.save(state, file_name)
