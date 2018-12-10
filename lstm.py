@@ -39,12 +39,12 @@ def main():
     args = parser.parse_args()
     
     # Data loading
-    X_train = np.load('../assets/X_train.npy')
-    y_train = np.load('../assets/y_train.npy')
-    X_val = np.load('../assets/X_val.npy')
-    y_val = np.load('../assets/y_val.npy')
-    X_test = np.load('../assets/X_test.npy')
-    y_test = np.load('../assets/y_test.npy')
+    X_train = np.load('../assets/sequence/X_train.npy')
+    y_train = np.load('../assets/sequence/y_train.npy')
+    X_val = np.load('../assets/sequence/X_val.npy')
+    y_val = np.load('../assets/sequence/y_val.npy')
+    X_test = np.load('../assets/sequence/X_test.npy')
+    y_test = np.load('../assets/sequence/y_test.npy')
 
     # Model configuration params
     feature_num = X_train.shape[2]

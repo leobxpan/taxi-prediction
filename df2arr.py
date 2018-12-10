@@ -39,7 +39,7 @@ def parsetime(data_frame, desired_labels, dt_label, timeBuckets):
 
 def arr2seq(arr, seq_len, feature_num):
     
-    """This function converts a 2-D array containing all data pieces into a 3-D matrix containing all X (which is a sequence) and a 1-D array of corresponding Y (which is a single number)."""
+    """This function converts a 2-D array containing all data pieces into a 3-D array containing all X (which is a sequence) and a 1-D array of corresponding Y (which is a single number)."""
      
     X = []
     y = []
@@ -52,6 +52,15 @@ def arr2seq(arr, seq_len, feature_num):
     
     return np.array(X), np.array(y)
 
+def arr2sample(arr, feature_num):
+
+    """This function converts a 2-D array containing all data pieces into a 2-D array containing all X (for non-sequential model) and a 1-D array of corresponding Y."""
+
+    X = arr[:, :feature_num]
+    y = arr[:, feature_num]
+
+    return X, y
+
 df = pd.read_pickle(pickle_path)
 df.columns = df.columns.str.lstrip()                                        # Remove the beginning space in column names
 timeBuckets = createTimeBuckets(time_slots)
@@ -61,7 +70,8 @@ df.sort_values(by=['pickup_id', 'month_of_year', 'day_of_week', 't_bucket'], inp
 
 arr = df.values
 
-X, y = arr2seq(arr, seq_len, feature_num)
+X, y = arr2sample(arr, feature_num)
+#X, y = arr2seq(arr, seq_len, feature_num)
 
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=(1-train_per))
 X_test, X_val, y_test, y_val = train_test_split(X_test, y_test, test_size=(test_per/(1-train_per)))
