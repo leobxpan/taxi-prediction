@@ -36,7 +36,7 @@
 -- Description: 
 ---------------------------------------
 ---------------------------------------
-- create_location_distribution.ipynb
+- create_location\_distribution.ipynb
 -- Description:
 ---------------------------------------
 ---------------------------------------
@@ -48,12 +48,20 @@
 -- Description: trial custom loss function to be applied to LSTM and FCNN
 ---------------------------------------
 ---------------------------------------
-- date_id_fetch.ipynb
+- date_id\_fetch.ipynb
 -- Description: initial data pre-processing file (not used ultimately)
 ---------------------------------------
 ---------------------------------------
 - df2arr.py
--- Description:
+-- Description: construct data samples (sequential & non-sequentail) in numpy array form from `.pickle` file containing original dataframes. 
+
+How to run it:
+
+
+1. Modify `pickle_path` to the path of `.pickle` file on your computer;
+2. Call `arr2sample()` if want to generate non-sequential samples. Call `arr2seq()` otherwise;
+3. type `python df2arr.py`.
+
 ---------------------------------------
 ---------------------------------------
 - fare-distributions.ipynb
@@ -61,10 +69,10 @@
 ---------------------------------------
 ---------------------------------------
 - fc_keras.py
--- Description:
+-- Description: FCNN in Keras.
 ---------------------------------------
 ---------------------------------------
-- fetch_coords_id.ipynb
+- fetch\_coords_id.ipynb
 -- Description: Converts lat/long coords to mercator and then checks where the coordinates fall in the set of all location ids.
 ---------------------------------------
 ---------------------------------------
@@ -81,7 +89,7 @@
 ---------------------------------------
 ---------------------------------------
 - irisDataset.py
--- Description:
+-- Description: In order to test whether the implementation of our FCNN is correct, we test it on the classical Iris dataset. Ignore this file.
 ---------------------------------------
 ---------------------------------------
 - k_means_validation.ipynb
@@ -93,11 +101,11 @@
 ---------------------------------------
 ---------------------------------------
 - lstm.py
--- Description:
+-- Description: LSTM in Keras.
 ---------------------------------------
 ---------------------------------------
 - main.py
--- Description:
+-- Description: FCNN in PyTorch which is buggy. Ignore this file.
 ---------------------------------------
 ---------------------------------------
 - projection_to_mercator.ipynb
@@ -109,7 +117,7 @@
 ---------------------------------------
 ---------------------------------------
 - svr.py
--- Description:
+-- Description: SVR using Scikit-Learn.
 ---------------------------------------
 ---------------------------------------
 - taxiDataset.py
@@ -117,7 +125,7 @@
 ---------------------------------------
 ---------------------------------------
 - test_lstm.py
--- Description:    
+-- Description: Test LSTM using a given model weight file.
 ---------------------------------------
 ---------------------------------------
 
