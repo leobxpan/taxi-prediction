@@ -1,1 +1,123 @@
 # taxi-prediction
+---------------------------------------
+- AdaBoost Trees.ipynb
+-- Description:
+---------------------------------------
+---------------------------------------
+- Bucketing Analysis.ipynb
+-- Description:
+---------------------------------------
+---------------------------------------
+- Bucketing Script.ipynb
+-- Description:
+---------------------------------------
+---------------------------------------
+- Cluster ID to Location ID Conversion.ipynb
+-- Description:
+---------------------------------------
+---------------------------------------
+- Cluster Polygon Generation.ipynb
+-- Description:
+---------------------------------------
+---------------------------------------
+- Projection to mercator Projection.ipynb
+-- Description:
+---------------------------------------
+---------------------------------------
+- Random Forest Regressors-Classifications Test.ipynb
+-- Description:
+---------------------------------------
+---------------------------------------
+- Scratch.ipynb
+-- Description:
+---------------------------------------
+---------------------------------------
+- bucket_label.py
+-- Description: 
+---------------------------------------
+---------------------------------------
+- create_location_distribution.ipynb
+-- Description:
+---------------------------------------
+---------------------------------------
+- create_pickles.py
+-- Description: convert .csv files to pickle binary files
+---------------------------------------
+---------------------------------------
+- custom_loss.py
+-- Description: trial custom loss function to be applied to LSTM and FCNN
+---------------------------------------
+---------------------------------------
+- date_id_fetch.ipynb
+-- Description: initial data pre-processing file (not used ultimately)
+---------------------------------------
+---------------------------------------
+- df2arr.py
+-- Description:
+---------------------------------------
+---------------------------------------
+- fare-distributions.ipynb
+-- Description:
+---------------------------------------
+---------------------------------------
+- fc_keras.py
+-- Description:
+---------------------------------------
+---------------------------------------
+- fetch_coords_id.ipynb
+-- Description:
+---------------------------------------
+---------------------------------------
+- getFreq.ipynb
+-- Description: Scratch file used to test grouping
+---------------------------------------
+---------------------------------------
+- gpu_tutorial.py
+-- Description:
+---------------------------------------
+---------------------------------------
+- heat_map_generator.ipynb
+-- Description:
+---------------------------------------
+---------------------------------------
+- irisDataset.py
+-- Description:
+---------------------------------------
+---------------------------------------
+- k_means_validation.ipynb
+-- Description: script to validate our k_means distribution. Takes 95%/5% split and calculates the classification accuracy.
+---------------------------------------
+---------------------------------------
+- location_k_means.ipynb
+-- Description: 
+---------------------------------------
+---------------------------------------
+- lstm.py
+-- Description:
+---------------------------------------
+---------------------------------------
+- main.py
+-- Description:
+---------------------------------------
+---------------------------------------
+- projection_to_mercator.ipynb
+-- Description:
+---------------------------------------
+---------------------------------------
+- sample_dataset.py
+-- Description: sample 1% data from each month from July 2014 to June 2018 and save as a pickle binary file
+---------------------------------------
+---------------------------------------
+- svr.py
+-- Description:
+---------------------------------------
+---------------------------------------
+- taxiDataset.py
+-- Description: creates a data set torch class for the input data (used for pytorch model, which was not ultimately used)
+---------------------------------------
+---------------------------------------
+- test_lstm.py
+-- Description:    
+---------------------------------------
+---------------------------------------
+
