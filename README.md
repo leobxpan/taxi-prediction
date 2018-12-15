@@ -1,35 +1,35 @@
 # taxi-prediction
 ---------------------------------------
 - AdaBoost Trees.ipynb
--- Description:
+-- Description: Testing AdaBoost Decision Trees for our dataset. Considering that we have a low feature count, we thought this would yield better results than random forests but it didn't.
 ---------------------------------------
 ---------------------------------------
 - Bucketing Analysis.ipynb
--- Description:
+-- Description: We needed to figure out what and how many labels we needed for our model. We first attempted to do this by using kmeans but the results didn't look too good. We decided to hand craft the labels by plotting the values and visually inspecting the distributions.
 ---------------------------------------
 ---------------------------------------
 - Bucketing Script.ipynb
--- Description:
+-- Description: The script that quickly buckets our dataset.
 ---------------------------------------
 ---------------------------------------
 - Cluster ID to Location ID Conversion.ipynb
--- Description:
+-- Description: We lost track of our Location IDs in our datasets and so this script basically links the cluster ids back to the location IDs.
 ---------------------------------------
 ---------------------------------------
 - Cluster Polygon Generation.ipynb
--- Description:
+-- Description: We looked into generating polygons for our cluster ids using vornoi diagrams so that we could plot our cluster geometries on the heat map but this proved too difficult.
 ---------------------------------------
 ---------------------------------------
 - Projection to mercator Projection.ipynb
--- Description:
+-- Description: We were given geo location boundaries for plotting that didn't fall in the specification required to plot on a map. This script converts the projection to the mercator projection. Mercator projections are used in web based map plotting.
 ---------------------------------------
 ---------------------------------------
 - Random Forest Regressors-Classifications Test.ipynb
--- Description:
+-- Description: We tested regression and classication rf to see the results.
 ---------------------------------------
 ---------------------------------------
 - Scratch.ipynb
--- Description:
+-- Description: Just a scratch pad to test some ideas before we actually ran anything.
 ---------------------------------------
 ---------------------------------------
 - bucket_label.py
@@ -57,7 +57,7 @@
 ---------------------------------------
 ---------------------------------------
 - fare-distributions.ipynb
--- Description:
+-- Description: Same thing as Random Forest Regressors-Classifications Test.ipynb
 ---------------------------------------
 ---------------------------------------
 - fc_keras.py
@@ -65,7 +65,7 @@
 ---------------------------------------
 ---------------------------------------
 - fetch_coords_id.ipynb
--- Description:
+-- Description: Converts lat/long coords to mercator and then checks where the coordinates fall in the set of all location ids.
 ---------------------------------------
 ---------------------------------------
 - getFreq.ipynb
@@ -77,7 +77,7 @@
 ---------------------------------------
 ---------------------------------------
 - heat_map_generator.ipynb
--- Description:
+-- Description: Generates heat maps for the data. Need to feed a vector of whatever you want to plot of size the set of location ids.
 ---------------------------------------
 ---------------------------------------
 - irisDataset.py
@@ -89,7 +89,7 @@
 ---------------------------------------
 ---------------------------------------
 - location_k_means.ipynb
--- Description: 
+-- Description: This is used to generate the kmeans plots and generate the clusters for our dataset.
 ---------------------------------------
 ---------------------------------------
 - lstm.py
@@ -101,7 +101,7 @@
 ---------------------------------------
 ---------------------------------------
 - projection_to_mercator.ipynb
--- Description:
+-- Description: Already done above.
 ---------------------------------------
 ---------------------------------------
 - sample_dataset.py
